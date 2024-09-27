@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "968766431716",
+    "project_id": "todo-l3zymo",
+    "storage_bucket": "todo-l3zymo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968766431716:android:9fa9c668157c2af11e27f1",
+        "android_client_info": {
+          "package_name": "com.mycompany.todo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp8A5iypamfi0zje6R1fUWgRpwS2D18_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
