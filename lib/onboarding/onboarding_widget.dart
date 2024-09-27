@@ -31,6 +31,9 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
     _model.nameTextController ??= TextEditingController();
     _model.nameFocusNode ??= FocusNode();
 
+    _model.flavorTextController ??= TextEditingController();
+    _model.flavorFocusNode ??= FocusNode();
+
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -283,6 +286,95 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                     Padding(
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(6.0, 6.0, 6.0, 0.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: TextFormField(
+                          controller: _model.flavorTextController,
+                          focusNode: _model.flavorFocusNode,
+                          onChanged: (_) => EasyDebounce.debounce(
+                            '_model.flavorTextController',
+                            const Duration(milliseconds: 2000),
+                            () => safeSetState(() {}),
+                          ),
+                          autofocus: false,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            labelStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: 'Work Sans',
+                                  letterSpacing: 0.0,
+                                ),
+                            hintText: 'Favorite Flavor... (of anything)',
+                            hintStyle: FlutterFlowTheme.of(context)
+                                .labelLarge
+                                .override(
+                                  fontFamily: 'Work Sans',
+                                  letterSpacing: 0.0,
+                                ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color(0x00000000),
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            filled: true,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            contentPadding: const EdgeInsetsDirectional.fromSTEB(
+                                24.0, 26.0, 24.0, 26.0),
+                            suffixIcon:
+                                _model.flavorTextController!.text.isNotEmpty
+                                    ? InkWell(
+                                        onTap: () async {
+                                          _model.flavorTextController?.clear();
+                                          safeSetState(() {});
+                                        },
+                                        child: const Icon(
+                                          Icons.clear,
+                                          size: 24.0,
+                                        ),
+                                      )
+                                    : null,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Work Sans',
+                                    letterSpacing: 0.0,
+                                  ),
+                          keyboardType: TextInputType.name,
+                          cursorColor: FlutterFlowTheme.of(context).primaryText,
+                          validator: _model.flavorTextControllerValidator
+                              .asValidator(context),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(6.0, 6.0, 6.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           final datePickedDate = await showDatePicker(
@@ -370,6 +462,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                     await currentUserReference!.update(createUsersRecordData(
                       displayName: _model.nameTextController.text,
                       birthday: _model.datePicked,
+                      favoriteFlavor: _model.flavorTextController.text,
                     ));
 
                     context.goNamed('tasks');
